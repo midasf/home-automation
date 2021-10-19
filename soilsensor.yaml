@@ -1,0 +1,44 @@
+esphome:
+  name: soil
+  platform: ESP8266
+  board: esp01_1m
+
+# Enable logging
+logger:
+web_server:
+  
+# Enable Home Assistant API
+api:
+
+ota:
+  password: ""
+
+wifi:
+  ssid: ""
+  password: ""
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: ""
+    password: ""
+
+captive_portal:
+
+
+# # Deep Sleep Feature. Needs adjustments...
+# deep_sleep:
+#   run_duration: 70s
+#   sleep_duration: 120min
+
+sensor:
+  platform: adc
+  pin: A0
+  id: moisture_sensor
+  name: "Soil Moisture"
+  unit_of_measurement: "%"
+  update_interval: 30s
+  filters:
+# Sensor dry around 0.825 Volt, sensor wet around 0.425 Volt. Volts are were flickering
+      - calibrate_linear:
+          - 0.825 -> 0.0
+          - 0.425 -> 100.0
